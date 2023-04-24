@@ -10,7 +10,7 @@ int check_unvisited(vector < bool > visitado){
 int main(){
     int n,m;
     cin >> n >> m;
-    vector < set <int> > gr(n+1);
+    vector < vector <int> > gr(n+1);
     vector <bool> visitado(n+1, false);
     queue <int> bfs;
     vector <int> tam, rep(n+1);
@@ -19,15 +19,12 @@ int main(){
     while(m--){
         int k;
         cin >> k;
-        vector <int> members(k);
+        vector <int> members;
         while(k--){
-            int mem;
-            cin >> mem;
-            for (int m : members){
-                gr[mem].insert(m);
-                
-            }
-            members.push_back(mem);
+            int elem;
+            cin >> elem;
+            gr[elem].push_back(*(members.end()-1));
+        }
         }
     }
     visitado[0] = true;
@@ -35,16 +32,18 @@ int main(){
         int temp = check_unvisited(visitado);
         bfs.push(temp);
         rep[temp] = groups;
-        tam.push_back(0);
+        tam.insert(tam.begin() + groups,0);
         visitado[temp] = true;
 
         while(!bfs.empty()){
             int nodo = bfs.front(); bfs.pop();
             for (int vecino: gr[nodo]){
-                bfs.push(vecino);
-                visitado[vecino] = true;
-                rep[vecino] = rep[nodo];
-                tam[rep[vecino]]++;
+                if(!visitado[vecino]){
+                    bfs.push(vecino);
+                    visitado[vecino] = true;
+                    rep[vecino] = rep[nodo];
+                    tam[rep[vecino]]++;
+                }
             }
         }
         groups++;

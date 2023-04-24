@@ -7,43 +7,48 @@ int main(){
     //contenedor del grafo
     vector< vector<int> > gr(n+1);
     //para recorrido bfs
-    vector<bool> visitado(n+1,false);
-    vector<int> distancia(n+1);
-    vector< vector<int> > camino(n+1);
+    vector<int> parents(n+1,-1);
+    vector<int> distancia(n+1); 
     queue<int> bfs;
-    
+
     //guardamos el grafo
 
     while(m--){
-        int u, v;
-        cin >> u >> v;
-        gr[u].push_back(v);
-        gr[v].push_back(u);
+        int a, b;
+        cin >> a >> b;
+        gr[a].push_back(b);
+        gr[b].push_back(a);
     }
     // hagamos un recorrido BFS y para cada iteración guardamos al nodo en una lista entregada por el nodo
     // padre, esto puede complicarse por la cantidad de memoria.
-
     //empezamos por cero por lo que lo ingresamos a la cola y lo seteamos como visitado.
+
     bfs.push(1);
-    visitado[1] = true;
     distancia[1] = 0;
-    camino[1].push_back(1);
+
+    parents[1] = 1;
     bool found = false; //encontramos o no un camino desde 0 hasta n-1
     while(!bfs.empty()){
         int nodo = bfs.front(); bfs.pop();
         if (nodo == n){
             found=true;
-            cout << distancia[nodo] + 1 << endl; // +1 porque la cantidad de nodos visitados es la distancia +1
-            for(int planet:camino[nodo]) cout << planet << " ";
+            vector<int>  ancestors;
+            int daddy = nodo, count = 1;
+            ancestors.push_back(daddy);
+            while(daddy!=1){
+                daddy = parents[daddy];
+                ancestors.insert(ancestors.begin(), daddy);
+                count++;
+            }
+            cout << count << endl; 
+            for (int planet : ancestors) cout << planet << " ";
             break;
             }
         for (int vecino: gr[nodo]){
-            if (!visitado[vecino]){
+            if (parents[vecino] == -1){
                 bfs.push(vecino);
                 distancia[vecino] = distancia[nodo] + 1;
-                camino[vecino] = camino[nodo];
-                camino[vecino].push_back(vecino);
-                visitado[vecino] = true;
+                parents[vecino] = nodo;
             }
         }
     }
@@ -51,4 +56,3 @@ int main(){
         cout << "IMPOSSIBLE" << endl;
     }
 }
-

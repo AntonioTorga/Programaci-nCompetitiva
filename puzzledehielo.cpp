@@ -2,7 +2,6 @@
 using namespace std;
 
 int check_unvisited(map < int , bool > visitado){
-
     for (auto const& x : visitado){
         if (x.second == false) return x.first;
     }
@@ -42,5 +41,5 @@ int main(){
         }
         componentes++;
     }
-    cout << componentes - 1 << endl; 
+    cout << componentes - 1 << endl;
 }
