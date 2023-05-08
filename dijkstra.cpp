@@ -6,9 +6,7 @@ long long INF = 1e18;
 int main(){
     int n, m;
     cin >> n >> m;
-
-
-    vector<vector<pair<int, long long>> gr(n);
+    vector<vector<pair<int, long long>>> gr(n);
 
     while (m--){
         int u,v;
@@ -35,7 +33,7 @@ int main(){
         auto [peso_camino, u] = pq.top(); pq.pop();
 
         if (peso_camino != dist[u]) continue;
-        for (auto [v,w]: adj[u]){
+        for (auto [v,w]: gr[u]){
             if(peso_camino+w<dist[v]){
                 dist[v] = peso_camino + w;
                 prev[v] = u;
@@ -43,11 +41,22 @@ int main(){
             }
         }
     }
+    string res;
+
     if(prev[n-1] == -1){
-        cout << "IMPOSSIBLE\n";
+        res += to_string(-1) ;
     }
 
     // Si no cout prev hasta q sea igual a 0, cout con el +1
+    else{
+        res = to_string(n) + " " + res ;
+        int pr = n-1;
+        while (pr!=0){
+            res =  to_string(prev[pr]+1) + " " + res ;
+            pr = prev[pr];
+        }
+    }
+    cout << res << endl;
 
     return 0;
 }
