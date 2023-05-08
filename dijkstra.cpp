@@ -41,22 +41,24 @@ int main(){
             }
         }
     }
-    string res;
+    vector <int> res;
 
     if(prev[n-1] == -1){
-        res += to_string(-1) ;
+        res.push_back(-1);
     }
 
     // Si no cout prev hasta q sea igual a 0, cout con el +1
     else{
-        res = to_string(n) + " " + res ;
+        res.push_back(n);
         int pr = n-1;
         while (pr!=0){
-            res =  to_string(prev[pr]+1) + " " + res ;
+            res.push_back(prev[pr]+1);
             pr = prev[pr];
         }
     }
-    cout << res << endl;
+    for(auto it= res.rbegin(); it!= res.rend();it++){
+        cout << *it << " ";
+    }
 
     return 0;
 }
