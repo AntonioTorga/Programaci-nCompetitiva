@@ -47,7 +47,6 @@ int main(){
         res.push_back(-1);
     }
 
-    // Si no cout prev hasta q sea igual a 0, cout con el +1
     else{
         res.push_back(n);
         int pr = n-1;
