@@ -21,7 +21,7 @@ int main(){
             int U,V,P;
             cin >> U >> V >> P;
             adjS[U].push_back({V,P});
-            adjD[V].push_back({D,P});
+            adjD[V].push_back({U,P});
         }
 
         priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;
@@ -29,8 +29,8 @@ int main(){
         vector <long long> distD (N,INF);
         vector <long long> distFin (N,INF);
 
-        pq.push({S,0});
-        distS[0]=0;
+        pq.push({0,S});
+        distS[S]=0;
 
         while(!pq.empty()){
             auto [peso_camino, u] = pq.top(); pq.pop();
@@ -43,8 +43,8 @@ int main(){
             }
         }
 
-        pq.push({D,0});
-        distD[0]=0;
+        pq.push({0,D});
+        distD[D]=0;
 
         while(!pq.empty()){
             auto [peso_camino, u] = pq.top(); pq.pop();
@@ -58,15 +58,17 @@ int main(){
         }
         
         for (int i = 0; i < N; i++){
-            auto itr = adjFin[i].begin();
-            for (int j = 0; j < adjS[i].size(); i++){
+            int len = adjS[i].size();
+            for (int j = 0; j < len; j++){
                 auto [node, peso] = adjS[i][j];
-                if (distS[i] + peso + distD[node] != distS[D]){ adjFin[i].push_back(make_pair(node,peso)); }
+                if (distS[i] + peso + distD[node] != distS[D]) {
+                adjFin[i].push_back({node,peso});
+                }
             }
         }
 
-        pq.push({S,0});
-        distFin[0]=0;
+        pq.push({0,S});
+        distFin[S]=0;
         while(!pq.empty()){
             auto [peso_camino, u] = pq.top(); pq.pop();
             if (peso_camino != distFin[u]) continue;
@@ -77,6 +79,7 @@ int main(){
                 }
             }
         }
+        if (distFin[D] == INF) distFin[D] = -1;
         cout << distFin[D] << endl;
     }
 }
