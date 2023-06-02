@@ -2,19 +2,19 @@
 using namespace std;
 
 int main(){
-    long long x_1,y_1,x_2,y_2;
+    long double x_1,y_1,x_2,y_2;
     cin >> x_1 >> y_1 >> x_2 >> y_2;
     long n;
     cin >> n;
-    vector<tuple<long long,long long,long long>> rectas;
+    vector<tuple<long double,long double,long double>> rectas;
     while(n--){
-        long long a,b,c;
+        long double a,b,c;
         cin >> a >> b >> c;
         rectas.push_back(make_tuple(a,b,c));
     }
-    long long crossed = 0;
+    long double crossed = 0;
     for (auto tupla : rectas){
-        long long a,b,c;
+        long double a,b,c;
         tie(a,b,c) = tupla;
         if (a==0){
             long double y = -c/b;
@@ -30,8 +30,8 @@ int main(){
         }
         else{
             long double yf1,yf2;
-            yf1 = (-a*x_1-c)/b;
-            yf2 = (-a*x_2-c)/b;
+            yf1 = (-a*x_1-c)/(long double)b;
+            yf2 = (-a*x_2-c)/(long)b;
             if ((y_1 < yf1 && y_2 > yf2)||(y_1 > yf1 && y_2 < yf2)){
                 crossed++;
             }

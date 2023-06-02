@@ -20,6 +20,8 @@ int main(){
     long long res = 0;
     for (int i = 0; i<N; i++){
         for (int j = i + 1; j<N; j++){
+            if (visitado[i][j]) continue;
+            // TOMAMOS DOS PUNTOS PARA DEFINIR LA RECTA
             long long x_p, y_p, x_q, y_q,x_r,y_r;
             x_p = estrellas[i].first;
             y_p = estrellas[i].second;
@@ -32,7 +34,8 @@ int main(){
             unordered_set<int> in_recta;
             in_recta.insert(i);
             in_recta.insert(j);
-            for(int m = 2; m<N; m++){
+            for(int m = 0; m<N; m++){
+                // REVISAMOS CADA ESTRELLA PARA VER SI ESTA EN LA RECTA
                 if (in_recta.count(m)) continue;
                 x_r = estrellas[m].first;
                 y_r = estrellas[m].second;
@@ -44,16 +47,19 @@ int main(){
             }
             int stars_in_line = in_recta.size();
             if (stars_in_line >= K){
+                // si esta estrellada
                 res++;
             }
-            for(int new_i=0; new_i<stars_in_line; new_i++){
-                for(int new_j=new_i+1; new_j<stars_in_line; new_j++){
-                    int i = in_recta[new_i];
-                    int j = in_recta[new_j];
+            
+            for(auto it = in_recta.begin(); it!=in_recta.end();  it++){
+                for(auto jt = next(it); jt!=in_recta.end(); jt++){
+                    int i = *it;
+                    int j = *jt;
                     visitado[i][j] = true;
                     visitado[j][i] = true;
                 }
             }
         }
     }
+    cout<<res<<endl;
 }
