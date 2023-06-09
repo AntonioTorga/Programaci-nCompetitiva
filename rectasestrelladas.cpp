@@ -34,9 +34,8 @@ int main(){
             unordered_set<int> in_recta;
             in_recta.insert(i);
             in_recta.insert(j);
-            for(int m = 0; m<N; m++){
+            for(int m = 2; m<N; m++){
                 // REVISAMOS CADA ESTRELLA PARA VER SI ESTA EN LA RECTA
-                if (in_recta.count(m)) continue;
                 x_r = estrellas[m].first;
                 y_r = estrellas[m].second;
                 double lhs = (y_r-y_p)*lhs_const;
